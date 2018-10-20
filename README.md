@@ -46,10 +46,13 @@ with parameters
 <br/> grant_type: password
 <br/> scope: read
 #### 2.3 authorization
-4. receive jwt token 
-5. auth with 8081(a.k.a. 'api' module) with 'GET' method with header information
+1. receive jwt token 
+2. auth with 8081(a.k.a. 'api' module) with 'GET' method with header information
+
+> http://localhost:8081/test/
 
 > Authorization: bearer \<jwt token value\>
+
 #### 2.4 result
-6. result will like
+3. result will like
 > api Test Success
