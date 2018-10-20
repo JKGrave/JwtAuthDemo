@@ -1,0 +1,85 @@
+//https://jojoldu.tistory.com/123
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+// https://docs.gradle.org/current/userguide/multi_project_builds.html
+allprojects {
+
+    group = 'com.example.demo'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    task hello {
+        doLast { task ->
+            println "I'm $task.project.name"
+        }
+    }
+}
+
+subprojects {
+
+    dependencies {
+        testCompile('junit:junit:4.11')
+    }
+
+    hello {
+        doLast {
+            println "- I depend on demo"
+        }
+    }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+project(':api') {
+    dependencies {
+        compile project(':api')
+    }
+}
+
+project(':client') {
+    dependencies {
+        compile project(':client')
+    }
+}
+
+project(':user') {
+    dependencies {
+        compile project(':user')
+    }
+}
+
+project(':jwtauth') {
+    dependencies {
+        compile project(':jwtauth')
+    }
+}
+
+project(':front') {
+    dependencies {
+        compile project(':front')
+    }
+}

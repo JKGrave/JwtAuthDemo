@@ -1,0 +1,26 @@
+spring:
+  profiles: localdev
+  jpa:
+    hibernate.ddl-auto: create
+    generate-ddl: true
+    database: MYSQL
+    # Show or not log for each sql query
+    show-sql: true
+    # Allows Hibernate to generate SQL optimized for a particular DBMS
+    # spring.jpa.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+    properties.hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      format_sql: true
+
+  datasource:
+    # JDBC Connection url for the database
+    # log4jdbc는 log4jdbc.log4j2.properties, logback.xml에서 조정 가능
+    # mysql Driver 대신 log4jdbc를 잡아 풀 query를 들여다 볼 수 있다.
+    url: jdbc:log4jdbc:mysql://localhost:3306/jwtauth?useUnicode=true&characterEncoding=utf-8
+    username: jwtauth
+    password: jwtauth
+    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
+logging:
+  level:
+    org.springframework.security: DEBUG

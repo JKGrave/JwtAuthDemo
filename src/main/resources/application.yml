@@ -1,0 +1,15 @@
+server:
+  port: 8079
+
+security:
+  basic:
+    enabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        boot: DEBUG
+        web: DEBUG
+      hibernate: DEBUG
