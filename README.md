@@ -20,17 +20,7 @@ How to use
 ### 1. Before begin
 1. install 'MySql'
 2. create databases with named 'user', 'client' (tables will automatically generate with JPA)
-3. change 'application.yml' files from all modules
-    <pre>
-    <code>
-    ...
-    spring:
-        profiles:
-            active: localdev
-    ...
-    </code>
-    </pre>
-4. (Optional) install 'chrome' browser. install 'postman' from 'chrome app store'
+3. (Optional) install 'chrome' browser. install 'postman' from 'chrome app store'
 
 ### 2. Begin
 ### 2.1 with postman
@@ -64,7 +54,7 @@ with parameters
 ##### 2.2.1 run
 compile vue.js project
 > $ cd {projectPath}/front/frontend
-    npm run build
+> $ npm run build
     
 and run 'front' module <br/>
 http://localhost:8080
@@ -79,7 +69,7 @@ http://localhost:8040 <t/> (Recommended)
 
 if you want to test, click '/test' and press button to check response 'Hello world!!!'
 
-#####2.2.2 request token
+##### 2.2.2 request token
 1. click '/login'
 2. login with username ='user', password='password'
 3. login token will show up (TODO modify)
