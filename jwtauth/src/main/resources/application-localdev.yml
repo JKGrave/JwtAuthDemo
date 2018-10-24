@@ -1,5 +1,4 @@
 spring:
-  profiles: localdev
   jpa:
     hibernate.ddl-auto: create
     generate-ddl: true

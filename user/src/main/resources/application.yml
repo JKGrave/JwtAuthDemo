@@ -2,4 +2,4 @@ server:
   port: 8082
 spring:
   profiles:
-    active: remotedev
+    active: localdev

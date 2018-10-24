@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(length = 20)
     private long seq;
 
     @Id

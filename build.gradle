@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        springBootVersion = '2.0.5.RELEASE'
+        springBootVersion = '2.0.6.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -27,24 +27,12 @@ allprojects {
     repositories {
         mavenCentral()
     }
-
-    task hello {
-        doLast { task ->
-            println "I'm $task.project.name"
-        }
-    }
 }
 
 subprojects {
 
     dependencies {
         testCompile('junit:junit:4.11')
-    }
-
-    hello {
-        doLast {
-            println "- I depend on demo"
-        }
     }
 }
 

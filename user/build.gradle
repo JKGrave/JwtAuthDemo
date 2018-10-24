@@ -39,7 +39,3 @@ dependencies {
 //    compile('org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE')
 //    testCompile('org.springframework.security:spring-security-test')
 }
-
-hello.doLast {
-    println "- user microservice project"
-}
