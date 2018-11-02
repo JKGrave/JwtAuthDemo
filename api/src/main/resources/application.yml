@@ -1,6 +1,30 @@
 server:
   port: 8081
 
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+zuul:
+  routes:
+    jwtauth:
+      path: /oauth/**
+      strip-prefix: false
+      # https://supawer0728.github.io/2018/03/11/Spring-Cloud-Zuul/
+      # zuul.routes.<serviceId>.stripPrefix: false인 경우 uri를 모두 보내며(/api/members/1), true인 경우에는 matching된 값을 제외하고 보낸다(/1)
+    user:
+      path: /account/**
+      strip-prefix: false
+    client:
+      path: /client/**
+      strip-prefix: false
+  ignored-patterns: /auth/**
+
 spring:
   profiles:
     active: localdev
+  application:
+    name: api-gateway

@@ -30,10 +30,6 @@ allprojects {
 }
 
 subprojects {
-
-    dependencies {
-        testCompile('junit:junit:4.11')
-    }
 }
 
 dependencies {
@@ -41,33 +37,33 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-
-project(':api') {
-    dependencies {
-        compile project(':api')
-    }
-}
-
-project(':client') {
-    dependencies {
-        compile project(':client')
-    }
-}
-
-project(':user') {
-    dependencies {
-        compile project(':user')
-    }
-}
-
-project(':jwtauth') {
-    dependencies {
-        compile project(':jwtauth')
-    }
-}
-
-project(':front') {
-    dependencies {
-        compile project(':front')
-    }
-}
+//
+//project(':api') {
+//    dependencies {
+//        compile project(':api')
+//    }
+//}
+//
+//project(':client') {
+//    dependencies {
+//        compile project(':client')
+//    }
+//}
+//
+//project(':user') {
+//    dependencies {
+//        compile project(':user')
+//    }
+//}
+//
+//project(':jwtauth') {
+//    dependencies {
+//        compile project(':jwtauth')
+//    }
+//}
+//
+//project(':front') {
+//    dependencies {
+//        compile project(':front')
+//    }
+//}

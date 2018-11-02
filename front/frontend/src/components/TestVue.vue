@@ -11,10 +11,10 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import {AXIOS} from './http-common'
+  // import axios from 'axios'
+  import {AXIOS} from './http-common'
 
-export default {
+  export default {
   name: 'TestVue',
   data () {
     return {

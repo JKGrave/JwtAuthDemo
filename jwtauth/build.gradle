@@ -23,6 +23,15 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springCloudVersion = 'Finchley.SR2'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -33,8 +42,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.data:spring-data-rest-hal-browser')
+//    compile('org.springframework.cloud:spring-cloud-starter-config')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
     compile('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16')
-    compile('org.springframework.security.oauth2:spring-security-oauth2:2.2.1.RELEASE')
+    compile('org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE')
     compile('org.springframework.security:spring-security-jwt:1.0.9.RELEASE')
     runtimeOnly('mysql:mysql-connector-java')
     compileOnly('org.projectlombok:lombok')

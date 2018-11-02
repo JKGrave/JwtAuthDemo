@@ -20,10 +20,6 @@
 </template>
 
 <script>
-
-// import axios from 'axios'
-import {AXIOS} from './http-common'
-
 export default {
   name: 'Authorization',
   data () {
@@ -44,13 +40,11 @@ export default {
   methods: {
     // Fetches posts when the component is created.
     loginUser () {
-      var params = new URLSearchParams()
+      let params = new URLSearchParams()
       params.append('username', this.user.username)
       params.append('password', this.user.password)
 
-      console.log(this.user.username)
-      console.log(this.user.password)
-
+      /*
       AXIOS.post(`/login`, params)
         .then(response => {
           // JSON responses are automatically parsed.
@@ -62,18 +56,37 @@ export default {
         .catch(e => {
           this.errors.push(e)
         })
-    },
-    retrieveUser () {
-      AXIOS.get(`/user/` + this.user.id)
+      */
+      // LOGIN 액션 실행
+      this.$store.dispatch('LOGIN', params)
         .then(response => {
+          console.log('store dispatch returned' + response.data)
           // JSON responses are automatically parsed.
-          this.retrievedUser = response.data
-          console.log(response.data)
-          this.showRetrievedUser = true
+          this.response = response.data
+          this.user.id = response.data
+          this.showResponse = true
+          this.redirect()
         })
         .catch(e => {
           this.errors.push(e)
+          // this.response = e.data
+          // this.showResponse = true
         })
+
+    },
+    // http://blog.jeonghwan.net/2018/03/26/vue-authentication.html
+    redirect() {
+      const {search} = window.location
+      const tokens = search.replace(/^\?/, '').split('&')
+      const {returnPath} = tokens.reduce((qs, tkn) => {
+        const pair = tkn.split('=')
+        qs[pair[0]] = decodeURIComponent(pair[1])
+        return qs
+      }, {})
+
+      console.log('redirect to: ' + returnPath)
+      // 리다이렉트 처리
+      this.$router.push(returnPath)
     }
   }
 }

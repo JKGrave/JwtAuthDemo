@@ -7,9 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@EnableDiscoveryClient
 public class UserApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -25,5 +27,11 @@ public class UserApplication implements CommandLineRunner {
         a.setAccountName("user");
         a.setAccountPass(new BCryptPasswordEncoder().encode("password"));
         this.accountRepository.save(a);
+
+
+        Account eurekaUser = new Account();
+        eurekaUser.setAccountName("eurekaserver");
+        eurekaUser.setAccountPass(new BCryptPasswordEncoder().encode("eurekaserver"));
+        this.accountRepository.save(eurekaUser);
     }
 }

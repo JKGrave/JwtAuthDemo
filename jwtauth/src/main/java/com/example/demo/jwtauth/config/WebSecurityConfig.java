@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -54,5 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable(); //HTTP 헤더 충돌 방지를 위해 설정
         http.csrf().disable(); //
         http.authorizeRequests().antMatchers("/**").permitAll();
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT는 기본적으로 Session을 사용하지 않는다.
     }
 }

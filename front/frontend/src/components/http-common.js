@@ -1,5 +1,8 @@
-import axios from 'axios'
+import Axios from 'axios'
 
-export const AXIOS = axios.create({
-  baseURL: `/test`
+export const AXIOS = Axios.create({
+  baseURL: `/test`,
+  headers: {
+    'Authorization': 'Bearer ' + localStorage.accessToken
+  }
 })

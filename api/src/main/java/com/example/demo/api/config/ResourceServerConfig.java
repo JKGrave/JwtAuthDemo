@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -61,7 +62,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
     public void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable(); //HTTP 헤더 충돌 방지를 위해 설정
         http.authorizeRequests()
-                .antMatchers("/test", "/test/**").access("#oauth2.hasScope('read')")
+                .antMatchers("/test", "/test/**", "/auth/**").access("#oauth2.hasScope('read')")
+                .antMatchers("/auth/request").permitAll()
                 .anyRequest().authenticated();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT는 기본적으로 세션을 사용하지 않는다.
     }
 }

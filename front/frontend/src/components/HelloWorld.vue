@@ -82,18 +82,33 @@
 
       <li>HowTo call REST-Services:</li>
       <li><router-link :to="{ name: 'TestVue' }" exact target="_blank">/test</router-link></li>
-      <li><router-link :to="{ name: 'Authorization' }" exact target="_blank">/login</router-link></li>
-
+      <li>
+        <a href="" v-if="isAuthenticated" @click.prevent="onClickLogout">Logout</a>
+        <router-link :to="{ name: 'Authorization' }" v-else>/login</router-link>
+      </li>
+      <li><router-link :to="{ name: 'MyInfo' }">/myInfo</router-link></li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {
+  import store from '../store'
+
+  export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    onClickLogout() {
+      store.dispatch('LOGOUT').then(() => this.$router.push('/'))
     }
   }
 }

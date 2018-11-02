@@ -11,6 +11,7 @@ spring.security:
     provider.jwtauth:
       token-uri: http://localhost:8080/oauth/token
       authorization-uri: http://localhost:8080/oauth/authorize
+#      user-info-uri is in the 'api' module '/auth/me'
 #      user-info-uri: http://localhost:8080/oauth/check_token
 
 logging:

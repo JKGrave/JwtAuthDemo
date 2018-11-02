@@ -4,6 +4,7 @@ import com.example.demo.jwtauth.domain.Client;
 import com.example.demo.jwtauth.service.CustomClientDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
@@ -16,14 +17,15 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 
     private static final Logger logger = LoggerFactory.getLogger(CustomClientDetailsServiceImpl.class);
 
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
 
         this.logger.info("client id equals: " + clientId);
 
-        HttpEntity<Client> entity = this.restTemplate.getForEntity("http://localhost:8083/client/" + clientId, Client.class);
+        HttpEntity<Client> entity = this.restTemplate.getForEntity("http://client/client/" + clientId, Client.class);
         BaseClientDetails baseClientDetails =
                 new BaseClientDetails(entity.getBody().getClientId(), entity.getBody().getResourceIds(),
                         entity.getBody().getScope(), entity.getBody().getAuthorizedGrantTypes(),

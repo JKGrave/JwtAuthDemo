@@ -7,9 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@EnableDiscoveryClient
 public class ClientApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -43,5 +45,17 @@ public class ClientApplication implements CommandLineRunner {
         c2.setAuthorizedGrantTypes("client_credentials,password,authorization_code");
         c2.setRegisteredRedirectUris("");
         this.clientRepository.save(c2);
+
+
+        Client c3 = new Client();
+        c3.setAccessTokenValiditySeconds(24*60*60);
+        c3.setRefreshTokenValiditySeconds(24*60*60);
+        c3.setAuthorities("SYSTEM,ROLE_SYSTEM,CLIENT");
+        c3.setClientId("eurekaserver");
+        c3.setClientSecret(new BCryptPasswordEncoder().encode("eurekaserver"));
+        c3.setScope("read");
+        c3.setAuthorizedGrantTypes("client_credentials,password,authorization_code");
+        c3.setRegisteredRedirectUris("");
+        this.clientRepository.save(c3);
     }
 }

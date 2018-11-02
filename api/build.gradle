@@ -23,20 +23,27 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springCloudVersion = 'Finchley.SR2'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-//    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-actuator') // status check with actuator
     compile('org.springframework.boot:spring-boot-starter-data-rest')
-//    compile('org.springframework.boot:spring-boot-starter-jdbc')
-    compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.data:spring-data-rest-hal-browser')
-    compile('org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE')
-    compile('org.springframework.security:spring-security-jwt:1.0.9.RELEASE')
-//    compile('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16')
-    compileOnly('org.projectlombok:lombok')
-//    runtimeOnly('mysql:mysql-connector-java')
+//    compile('org.springframework.cloud:spring-cloud-starter-config') // TODO config server
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client') // enabled eureka client to manage api msa with eureka
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
+    compile('org.springframework.boot:spring-boot-starter-security') // check security
+    compile('org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE') // oauth2 token based security
+    compile('org.springframework.security:spring-security-jwt:1.0.9.RELEASE') // convert token to jwt
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 }

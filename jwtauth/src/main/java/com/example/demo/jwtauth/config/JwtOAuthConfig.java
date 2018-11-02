@@ -2,6 +2,7 @@ package com.example.demo.jwtauth.config;
 
 import com.example.demo.jwtauth.service.CustomClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,14 +19,28 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
+// https://stackoverflow.com/questions/49127791/extract-currently-logged-in-user-information-from-jwt-token-using-spring-securit
+
+// basic spring security auth process(korean)
+// https://tramyu.github.io/java/spring/spring-security/
+
+// high class custom jwt auth
+// https://sdqali.in/blog/2016/07/07/jwt-authentication-with-spring-web---part-4/
 @Configuration
 @EnableAuthorizationServer
 public class JwtOAuthConfig extends AuthorizationServerConfigurerAdapter {
 
     private static final String signKey = "Sex";
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     @Autowired
     private AuthenticationManager authenticationManager; //인증을 담당하는 역할, 권한 등을 설정할 수 있는 객체
@@ -108,4 +123,22 @@ public class JwtOAuthConfig extends AuthorizationServerConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    /*
+    * WebSecurityConfig의
+    *   @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }
+        처럼 addFilterBefore작업을 통해 jwt전용 필터를 만들어야 한다.
+        출처: http://heowc.tistory.com/46 [허원철의 개발 블로그]
+
+        Claims를 통해 값을 추출하는 경우가 많다.
+        spring security jwt 중 JwtHelper에 getClaims라는 메소드가 있는걸 보아 그것이 바로 뽑아내는 것 같다.
+        이를 sign key를 이용해 뽑아내야 한다...
+        그것을 통해 authorization 후 user information을 빼와야 됨.
+    * */
 }

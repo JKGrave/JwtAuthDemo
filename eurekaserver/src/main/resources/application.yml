@@ -1,0 +1,30 @@
+spring:
+  application.name: eureka-service-registry
+  security:
+    user:
+      name: eurekaserver
+      password: eurekaserver
+    oauth2.client:
+      registration.api:
+        client-id: eurekaserver
+        client-secret: eurekaserver
+        client-name: eurekaserver
+        scope: read
+        authorization-grant-type: password
+        redirect-uri-template:
+        provider: jwtauth
+      provider.jwtauth:
+        token-uri: http://localhost:8080/oauth/token
+        authorization-uri: http://localhost:8080/oauth/authorize
+#      user-info-uri: http://localhost:8080/oauth/check_token
+
+server.port: 8761
+
+custom.eureka:
+  client-id: eurekaserver
+  client-secret: eurekaserver
+
+eureka.client:
+  serviceUrl.defaultZone: http://localhost:8761/eureka/
+  registerWithEureka: false
+  fetchRegistry: false

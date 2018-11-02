@@ -3,3 +3,7 @@ server.port: 8090
 custom.front:
   client-id: foo
   client-secret: bar
+
+spring:
+  application:
+    name: front
