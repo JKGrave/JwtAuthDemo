@@ -1,89 +1,75 @@
-User
----
+JWT AUTH DEMO
+=============
 
 Compose
 -------------
 
-##### 1. spring
-* spring security
-  * spring oauth2
-  * spring jwt
-* cloud-netflix
-  * eureka client
-* mysql db
-  * jdbc
-  * mysql connector
-  * log4jdbc-log4j2-jdbc4.1 version 1.16(DB 자잘한 로그 다 띄워줌. 이 버전이 7 이상에서 동작함)
-* lombok (for domain)
+### 1. api
+    check token is valid
+### 2. client
+    get client information
+### 3. front
+    with Vue.js. still building
+### 4. jwtauth
+    create jwt token with 'client' & 'user' module
+### 5. user
+    get user information
+    
+How to use
+-------------
+### 1. Before begin
+1. install 'MySql'
+2. create databases with named 'user', 'client' (tables will automatically generate with JPA)
+3. (Optional) install 'chrome' browser. install 'postman' from 'chrome app store'
 
-##### 2. controller
-1. UserController<br/>
-    Account 정보를 수집
+### 2. Begin
+### 2.1 with postman
+##### 2.1.1 run
+1. run separately (TODO Fix...)
+2. open 'postman'
+##### 2.1.2 request token
+3. request token to 8080 port(a.k.a. 'jwtauth' module) with 'POST' method
+> http://foo:bar@localhost:8080/oauth/token
 
-##### 3. Account Domain
-<pre><code>@Data
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-public class Account {
+with parameters
+> username: user
+<br/> password: password
+<br/> grant_type: password
+<br/> scope: read
+##### 2.1.3 authorization
+1. receive jwt token 
+2. auth with 8081(a.k.a. 'api' module) with 'GET' method with header information
 
-   @GeneratedValue(strategy=GenerationType.AUTO)
-   private long seq;
+> http://localhost:8081/test/
 
-   @Id
-   @Column(length = 20)
-   private String accountName;
+> Authorization: bearer \<jwt token value\>
 
-   @Column(length = 100)
-   private String accountPass;
+##### 2.1.4 result
+3. result will like
+> api Test Success
 
-   public Account(String accountName, String accountPass) {
-       this.accountName = accountName;
-       this.accountPass = accountPass;
-   }
-}</code></pre>
+<br/>
 
-  DB에 객체화하여 집어넣어야하 하기 때문에 @Entity 추가
+#### 2.2 run with vue
+##### 2.2.1 run
+compile vue.js project
+> $ cd {projectPath}/front/frontend
+> $ npm run build
+    
+and run 'front' module <br/>
+http://localhost:8080
 
-##### 4. repository
-[Read with] (https://brunch.co.kr/@sbcoba/3)
-> /{repository}/{id}/{property}, method=GET
-/{repository}/{id}/{property}/{propertyId}, method=GET
-/{repository}/{id}/{property}, method=DELETE
-/{repository}/{id}/{property}, method=PATCH||POST||PUT
-...
+---
+or you just run
 
-등등등 다양한 옵션을 @RepositoryRestResource 하나 달면 알아서 만듦 (나중에 서비스가 불어나면 그 때 적극적으로 사용할 예정)
+    npm run dev
+    
+and run 'front' module <br/>
+http://localhost:8040 <t/> (Recommended)
 
-##### 5. service
-AccountRespository 를 통해 service 구현
+if you want to test, click '/test' and press button to check response 'Hello world!!!'
 
-##### 6. ClientApplication.java
-데모 데이터를 CommandLineRunner를 통해 넣었음 <br/>
-이 모듈도 Eureka가 감시하는 대상(데모 데이터 중 Eureka 정보는 아직은 필요 없습니다~)
-
-<pre><code>@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@EnableDiscoveryClient
-public class UserApplication implements CommandLineRunner {
-
-   public static void main(String[] args) {
-       SpringApplication.run(UserApplication.class, args);
-   }
-
-   @Autowired
-   private AccountRepository accountRepository;
-
-   @Override
-   public void run(String... args) throws Exception {
-       Account a = new Account();
-       a.setAccountName("user");
-       a.setAccountPass(new BCryptPasswordEncoder().encode("password"));
-       this.accountRepository.save(a);
-
-
-       Account eurekaUser = new Account();
-       eurekaUser.setAccountName("eurekaserver");
-       eurekaUser.setAccountPass(new BCryptPasswordEncoder().encode("eurekaserver"));
-       this.accountRepository.save(eurekaUser);
-   }
-}</code></pre>
+##### 2.2.2 request token
+1. click '/login'
+2. login with username ='user', password='password'
+3. login token will show up (TODO modify)
