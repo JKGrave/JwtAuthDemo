@@ -63,7 +63,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
         http.headers().frameOptions().disable(); //HTTP 헤더 충돌 방지를 위해 설정
         http.authorizeRequests()
                 .antMatchers("/test", "/test/**", "/auth/**").access("#oauth2.hasScope('read')")
-                .antMatchers("/auth/request").permitAll()
+                .antMatchers("/auth/request", "/oauth/**").permitAll()
                 .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT는 기본적으로 세션을 사용하지 않는다.
     }

@@ -49,6 +49,48 @@ public class AuthorizationController {
             return p.getBody();
     }
 
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("username", username);
+        map.add("password", password);
+        map.add("grant_type", "password");
+        map.add("scope", "read");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        // Basic Auth
+        String plainCredentials = this.frontConfig.getClientId() + ":" + this.frontConfig.getClientSecret();
+        String base64ClientCredentials = new String(Base64Utils.encode(plainCredentials.getBytes()));
+        httpHeaders.add("Authorization", "Basic " + base64ClientCredentials);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, httpHeaders);
+
+        this.logger.info(
+                "Base 64 Client Credentials: " + base64ClientCredentials
+                        + ", username: " + username + ", password: " + password
+                        + ", clientId: " + this.frontConfig.getClientId()
+                        + ", clientSecret: " + this.frontConfig.getClientSecret()
+        );
+
+        ResponseEntity<String> responseEntity = this.authRestTemplate
+                .exchange(
+                        "http://api-gateway/oauth/token",
+                        HttpMethod.POST,
+                        request,
+                        String.class);
+        this.logger.info("return body value: " + responseEntity.getBody());
+
+        // https://github.com/pravusid/springboot-vue.js-bbs/blob/master/src/main/java/kr/pravusid/service/JwtUserService.java
+
+        Map token = JsonParserFactory.create().parseMap(responseEntity.getBody());
+        String returnString = (String) token.get("access_token");
+
+        return returnString;
+    }
+
+    /*
     // @Consumes : 수신 하고자하는 데이터 포맷을 정의한다.
     // @Produces : 출력하고자 하는 데이터 포맷을 정의한다.
     @RequestMapping(value = "", method = RequestMethod.POST
@@ -84,7 +126,7 @@ public class AuthorizationController {
 //        try {
         ResponseEntity<String> responseEntity = this.authRestTemplate
                 .exchange(
-                        "http://jwtauth/oauth/token",//"http://localhost:8080/oauth/token",
+                        "http://api-gateway/oauth/token",//"http://localhost:8080/oauth/token",
                         HttpMethod.POST,
                         request,
                         String.class);
@@ -104,4 +146,5 @@ public class AuthorizationController {
 
         return returnString;
     }
+    */
 }

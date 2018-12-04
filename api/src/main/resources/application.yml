@@ -13,7 +13,12 @@ zuul:
     jwtauth:
       path: /oauth/**
       strip-prefix: false
+      sensitive-headers: # Cookie,Set-Cookie,Authorization
       # https://supawer0728.github.io/2018/03/11/Spring-Cloud-Zuul/
+
+      # 동일한 시스템 내에서 공유되는 요청 헤더를 외부(downstream)로 노출하지 않아야하는 경우가 있을 수 있다
+      # sensitiveHeaders를 설정하여 내부에서 사용되는 헤더값이 노출되는 것을 막을 수 있다
+
       # zuul.routes.<serviceId>.stripPrefix: false인 경우 uri를 모두 보내며(/api/members/1), true인 경우에는 matching된 값을 제외하고 보낸다(/1)
     user:
       path: /account/**

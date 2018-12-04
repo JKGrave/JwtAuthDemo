@@ -3,16 +3,11 @@ package com.example.demo.api.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.security.oauth2.common.util.JsonParserFactory;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,7 +28,7 @@ public class AuthController {
 
         return principal.getName();
     }
-
+/*
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public String requestJwtToken(
             @RequestParam("username") String username,
@@ -89,4 +84,5 @@ public class AuthController {
 
         return returnString;
     }
+    */
 }
