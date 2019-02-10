@@ -1,0 +1,94 @@
+# https://www.baeldung.com/dockerizing-spring-boot-application
+
+version: '2'
+services:
+  mysql:
+    container_name: mysql_jwtauth
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+      - "15672:15672"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysqladmin # root password
+      MYSQL_USER: coffeeOrderApp
+      MYSQL_PASSWORD: coffeeorder # mysql_user password
+      MYSQL_DATABASE: coffee_store #default database when container created
+  api:
+    container_name: api_jwtauth
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    image: jkyoo11/api_jwtauth:latest
+    ports:
+      - "8081:8081"
+    volumes:
+      - "/tmp"
+  client:
+    container_name: client_jwtauth
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: jkyoo11/client_jwtauth:latest
+    ports:
+      - "8083:8083"
+    volumes:
+      - "/tmp"
+    links:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+  configurationserver:
+    container_name: configurationserver_jwtauth
+    build:
+      context: ./configurationserver
+      dockerfile: ./Dockerfile
+    image: jkyoo11/configurationserver_jwtauth:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - "/tmp"
+  eurekaserver:
+    container_name: eurekaserver_jwtauth
+    build:
+      context: ./eurekaserver
+      dockerfile: ./Dockerfile
+    image: jkyoo11/eurekaserver_jwtauth:latest
+    ports:
+      - "8761:8761"
+    volumes:
+      - "/tmp"
+  front:
+    container_name: front_jwtauth
+    build:
+      context: ./front
+      dockerfile: ./Dockerfile
+    image: jkyoo11/front_jwtauth:latest
+    ports:
+      - "8090:8090"
+    volumes:
+      - "/tmp"
+  jwtauth:
+    container_name: jwtauth_jwtauth
+    build:
+      context: ./jwtauth
+      dockerfile: ./Dockerfile
+    image: jkyoo11/jwtauth_jwtauth:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/tmp"
+  user:
+    container_name: user_jwtauth
+    build:
+      context: ./user
+      dockerfile: ./Dockerfile
+    image: jkyoo11/user_jwtauth:latest
+    ports:
+      - "8082:8082"
+    volumes:
+      - "/tmp"
+    links:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+

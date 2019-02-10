@@ -1,2 +1,2 @@
 rootProject.name = 'demo'
-include 'api', 'client', 'jwtauth', 'user', 'front', 'eurekaserver'
+include 'api', 'client', 'jwtauth', 'user', 'front', 'eurekaserver', 'configurationserver'

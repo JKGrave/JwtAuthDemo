@@ -10,6 +10,6 @@ eureka:
 
 spring:
   profiles:
-    active: localdev
+    active: remotedev
   application:
     name: jwtauth

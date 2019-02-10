@@ -29,8 +29,8 @@ repositories {
 }
 
 bootJar {
-    baseName = 'apigateway'
-    version = 'latest'
+    baseName = 'api'
+    version = version
 }
 
 docker{
@@ -52,7 +52,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.data:spring-data-rest-hal-browser')
-//    compile('org.springframework.cloud:spring-cloud-starter-config') // TODO config server
+    compile('org.springframework.cloud:spring-cloud-starter-config') // config server
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client') // enabled eureka client to manage api msa with eureka
     compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
     compile('org.springframework.boot:spring-boot-starter-security') // check security

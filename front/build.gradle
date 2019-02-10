@@ -30,7 +30,7 @@ repositories {
 
 bootJar {
     baseName = 'front'
-    version = 'latest'
+    version = version
 }
 
 docker{
